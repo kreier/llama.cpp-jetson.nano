@@ -34,7 +34,7 @@ if [ -n "$NEEDS" ]; then
     exit 1
 fi
 
-INSTALL_DIR=$(dirname ${/usr/local/bin})
+INSTALL_DIR=$(dirname /usr/local/bin)
 $SUDO mkdir /usr/local/llama.cpp/lib
 
 status "Installing llama.cpp with CUDA support on the Jetson Nano to $INSTALL_DIR"
