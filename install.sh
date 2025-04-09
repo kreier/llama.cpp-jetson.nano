@@ -1,16 +1,3 @@
-# llama.cpp-jetson.nano
-
-Install a CUDA version of `llama.cpp`, `llama-server` and `llama-bench` on the Jetson Nano, compiled with gcc 8.5. Just type:
-
-``` sh
-curl -fsSL https://github.com/kreier/llama.cpp-jetson.nano/install.sh | sh
-```
-
-## Description
-
-The script copies the binaries to `/usr/local/bin` and the libraries to `/usr/local/llama.cpp/lib` and adjusts the path in .bashrc
-
-``` sh
 #!/bin/sh
 
 set -eu
@@ -54,5 +41,3 @@ status "Installing llama.cpp with CUDA support on the Jetson Nano to $INSTALL_DI
 
 $SUDO install -o0 -g0 -m755 -d $INSTALL_DIR
 $SUDO install -o0 -g0 -m755 -d "/usr/local/llama.cpp/lib"
-
-```
