@@ -60,10 +60,27 @@ if [ -n "$NEEDS" ]; then
     exit 1
 fi
 
-INSTALL_DIR=$(dirname /usr/local/bin)
+status "Downloading binaries to temporary directory"
 
-status "Installing llama.cpp with CUDA support on the Jetson Nano to $INSTALL_DIR"
+FILES="llama-cli llama-server llama-bench libllama.so"
 
-$SUDO install -o0 -g0 -m755 -d $INSTALL_DIR
-$SUDO install -o0 -g0 -m755 -d "/usr/local/llama.cpp/lib"
+for FILE in $FILES; do
+    status "Downloading $FILE"
+    curl -fsSL -o "$TEMP_DIR/$FILE" "https://kreier.github.io/llama.cpp-jetson.nano/bin/$FILE"
+done
+
+status "Installing llama.cpp with CUDA support on the Jetson Nano to /usr/local/bin"
+
+$SUDO install -o0 -g0 -m755 -d "/usr/local/bin"
+$SUDO install -o0 -g0 -m755 -d "/usr/local/lib"
+
+# Copy binaries
+BINARIES="llama-cli llama-server llama-bench"
+for FILE in $FILES; do
+    $SUDO cp -v "$TEMP_DIR/$FILE" /usr/local/bin/
+    $SUDO chmod +x /usr/local/bin/$FILE
+done
+
+# Copy library
+$SUDO cp -v "$TEMP_DIR/libllama.so" /usr/local/lib/
 ```
