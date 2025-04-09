@@ -2,8 +2,6 @@
 
 set -eu
 
-echo "I hope this works!"
-
 red="$( (/usr/bin/tput bold || :; /usr/bin/tput setaf 1 || :) 2>&-)"
 plain="$( (/usr/bin/tput sgr0 || :) 2>&-)"
 
@@ -47,7 +45,6 @@ if [ -n "$NEEDS" ]; then
 fi
 
 INSTALL_DIR=$(dirname /usr/local/bin)
-$SUDO mkdir /usr/local/llama.cpp/lib
 
 status "Installing llama.cpp with CUDA support on the Jetson Nano to $INSTALL_DIR"
 
