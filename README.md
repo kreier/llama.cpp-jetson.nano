@@ -9,9 +9,29 @@ Install a CUDA version of `llama.cpp`, `llama-server` and `llama-bench` on the J
 curl -fsSL https://kreier.github.io/llama.cpp-jetson.nano/install.sh | sh
 ```
 
+## CLI and Webinterface
+
+You can start Gemma3 just a few seconds later with
+
+``` sh
+llama-cli -hf ggml-org/gemma-3-1b-it-GGUF --n-gpu-layers 99
+```
+
+If you ssh into your Jetson Nano anyway with `ssh 192.168.37.37` you can also start the little http server version. It renders the created markdown much nicer:
+
+``` sh
+llama-server -m .cache/llama.cpp/ggml-org_gemma-3-1b-it-GGUF_gemma-3-1b-it-Q4_K_M.gguf --host 0.0.0.0 --n-gpu-layers 99
+```
+
+Then open [http://192.168.37.37:8080](http://192.168.37.37:8080) and enjoy the GUI
+
+![llama-server](docs/llama-server5050.png)
+
+Maybe let it compare *Snowwhite* to *Cinderella*.
+
 ## Description
 
-The script copies the binaries to `/usr/local/bin` and the libraries to `/usr/local/llama.cpp/lib` and adjusts the path in .bashrc
+The script copies the binaries to `/usr/local/bin` and the libraries to `/usr/local/lib`. They should be included an $PATH and autmatically work.
 
 ``` sh
 #!/bin/sh
