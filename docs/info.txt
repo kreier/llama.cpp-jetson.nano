@@ -1,0 +1,28 @@
+Comparison b5050 to b2275
+
+b5050 - 2025-04-05
+
+71 files
+168,772,928 bytes
+
+- llama-cli           1.7 MB
+- llama-bench         0.4 MB
+- llama-server        3.5 MB
+- llama-gemma3-cli    1.9 MB
+
+with 6 libraries:
+- libllama.so         1.7 MB  - the important one
+- libggml.so          3.4 MB
+- libggml-base.so     0.6 MB
+- libggml-cpu.so      0.5 MB
+- libggml-cuda.so    96.2 MB
+- libllava_shared.so  0.4 MB
+
+
+
+b2275 - 2024-02-26
+
+39 files
+129,234,011 bytes
+
+main and llama-bench are 4.3 MByte without library 
