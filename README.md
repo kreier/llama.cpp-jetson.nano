@@ -27,11 +27,23 @@ Then open [http://192.168.37.37:8080](http://192.168.37.37:8080) and enjoy the G
 
 ![llama-server](docs/llama-server5050.png)
 
-Maybe let it compare *Snowwhite* to *Cinderella*.
+Maybe let it compare *Snow White* to *Cinderella*.
+
+## Source
+
+The binaries were compiled with `gcc 8.5` and some changes, described in the repository [https://github.com/kreier/llama.cpp-jetson](https://github.com/kreier/llama.cpp-jetson). The compiled 71 binaries and libraries of the `/build/bin` folder can be found in the `/bin` folder of this repository. 
 
 ## Description
 
-The script copies the binaries to `/usr/local/bin` and the libraries to `/usr/local/lib`. They should be included an $PATH and autmatically work.
+The script copies three binaries to `/usr/local/bin` and one library to `/usr/local/lib`. They should be included an $PATH and autmatically work. To the bin goes:
+
+- llama.cpp
+- llama-server
+- llama-bench
+
+And the one needed library `libllama.so` is copied to `/usr/local/lib`.
+
+This is the content of the script:
 
 ``` sh
 #!/bin/sh
