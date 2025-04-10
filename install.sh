@@ -46,7 +46,7 @@ fi
 
 status "Downloading binaries to temporary directory"
 
-FILES="llama-cli llama-server llama-bench libllama.so"
+FILES="llama-cli llama-server llama-bench libllama.so libggml.so libggml-base.so libggml-cpu.so libggml-cuda.so"
 
 for FILE in $FILES; do
     status "Downloading $FILE"
@@ -60,10 +60,15 @@ $SUDO install -o0 -g0 -m755 -d "/usr/local/lib"
 
 # Copy binaries
 BINARIES="llama-cli llama-server llama-bench"
-for FILE in $FILES; do
+for FILE in $BINARIES; do
     $SUDO cp -v "$TEMP_DIR/$FILE" /usr/local/bin/
     $SUDO chmod +x /usr/local/bin/$FILE
 done
 
-# Copy library
-$SUDO cp -v "$TEMP_DIR/libllama.so" /usr/local/lib/
+# Copy libraries
+LIBRARIES="libllama.so libggml.so libggml-base.so libggml-cpu.so libggml-cuda.so"
+for FILE in $LIBRARIES; do
+    $SUDO cp -v "$TEMP_DIR/$FILE" /usr/local/lib/
+done
+
+export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
