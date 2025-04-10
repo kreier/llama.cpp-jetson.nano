@@ -9,6 +9,8 @@ Install a CUDA version of `llama.cpp`, `llama-server` and `llama-bench` on the J
 curl -fsSL https://kreier.github.io/llama.cpp-jetson.nano/install.sh | sh
 ```
 
+If the path is not automatically adjusted, run `export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH` or add this line permanently with `nano ~/.bashrc` to the end.
+
 ## CLI and Webinterface
 
 Now you can start Gemma3. The first startup takes 7 minutes, later its just 10 seconds. To start enter
@@ -37,13 +39,19 @@ The binaries were compiled with `gcc 8.5` and some changes, described in the rep
 
 ## Description
 
-The script copies three binaries to `/usr/local/bin` and one library to `/usr/local/lib`. They should be included an $PATH and autmatically work. To the bin goes:
+The script copies three binaries to `/usr/local/bin` and five libraries to `/usr/local/lib`. They should be included an $PATH and autmatically work. To the bin goes:
 
 - llama.cpp
 - llama-server
 - llama-bench
 
-And the one needed library `libllama.so` is copied to `/usr/local/lib`.
+And the 5 required libraries are to `/usr/local/lib`.
+
+- libllama.so
+- libggml.so
+- libggml-base.so
+- libggml-cpu.so
+- libggml-cuda.so
 
 This is the content of the script:
 
@@ -96,7 +104,7 @@ fi
 
 status "Downloading binaries to temporary directory"
 
-FILES="llama-cli llama-server llama-bench libllama.so"
+FILES="llama-cli llama-server llama-bench libllama.so libggml.so libggml-base.so libggml-cpu.so libggml-cuda.so"
 
 for FILE in $FILES; do
     status "Downloading $FILE"
@@ -110,11 +118,35 @@ $SUDO install -o0 -g0 -m755 -d "/usr/local/lib"
 
 # Copy binaries
 BINARIES="llama-cli llama-server llama-bench"
-for FILE in $FILES; do
+for FILE in $BINARIES; do
     $SUDO cp -v "$TEMP_DIR/$FILE" /usr/local/bin/
     $SUDO chmod +x /usr/local/bin/$FILE
 done
 
-# Copy library
-$SUDO cp -v "$TEMP_DIR/libllama.so" /usr/local/lib/
+# Copy libraries
+LIBRARIES="libllama.so libggml.so libggml-base.so libggml-cpu.so libggml-cuda.so"
+for FILE in $LIBRARIES; do
+    $SUDO cp -v "$TEMP_DIR/$FILE" /usr/local/lib/
+done
+
+# Define the library path
+LIB_PATH="/usr/local/lib"
+
+# Check if the LD_LIBRARY_PATH line already exists in ~/.bashrc
+grep -q "export LD_LIBRARY_PATH=$LIB_PATH:\$LD_LIBRARY_PATH" ~/.bashrc
+
+# If not, append it to ~/.bashrc
+if [ $? -ne 0 ]; then
+    echo "Adding library path to ~/.bashrc..."
+    echo "export LD_LIBRARY_PATH=$LIB_PATH:\$LD_LIBRARY_PATH" >> ~/.bashrc
+else
+    echo "Library path is already set in ~/.bashrc."
+fi
+
+# Reload ~/.bashrc to apply the changes
+echo "Reloading ~/.bashrc..."
+source ~/.bashrc
+
+echo "Done! The library path has been updated."
+
 ```
