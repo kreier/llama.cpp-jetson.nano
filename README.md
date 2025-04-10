@@ -11,19 +11,21 @@ curl -fsSL https://kreier.github.io/llama.cpp-jetson.nano/install.sh | sh
 
 ## CLI and Webinterface
 
-You can start Gemma3 just a few seconds later with
+Now you can start Gemma3. The first startup takes 7 minutes, later its just 10 seconds. To start enter
 
 ``` sh
 llama-cli -hf ggml-org/gemma-3-1b-it-GGUF --n-gpu-layers 99
 ```
 
-If you ssh into your Jetson Nano anyway with `ssh 192.168.37.37` you can also start the little http server version. It renders the created markdown much nicer:
+The download might be 30 seconds. Then `main: load model the model and apply lora adapter, if any` needs **almost 7 minutes** for the first start. The next time the cli is available after **10 seconds**.
+
+If you `ssh` into your Jetson Nano anyway with `ssh 192.168.37.37` you can also start the little http server version. It renders the created markdown much nicer:
 
 ``` sh
 llama-server -m .cache/llama.cpp/ggml-org_gemma-3-1b-it-GGUF_gemma-3-1b-it-Q4_K_M.gguf --host 0.0.0.0 --n-gpu-layers 99
 ```
 
-Then open [http://192.168.37.37:8080](http://192.168.37.37:8080) and enjoy the GUI
+Then open port 8080 on your Jetson with [http://192.168.37.37:8080](http://192.168.37.37:8080) and enjoy the GUI!
 
 ![llama-server](docs/llama-server5050.png)
 
