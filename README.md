@@ -9,22 +9,28 @@ Install a CUDA version of `llama.cpp`, `llama-server` and `llama-bench` on the J
 curl -fsSL https://kreier.github.io/llama.cpp-jetson.nano/install.sh | sh
 ```
 
+There is also a variant compiled with gcc 9.4 that works. Try with:
+
+``` sh
+curl -fsSL https://kreier.github.io/llama.cpp-jetson.nano/install9.sh | sh
+```
+
 If the path is not automatically adjusted, run `export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH` or add this line permanently with `nano ~/.bashrc` to the end.
 
 ## CLI and Webinterface
 
-Now you can start Gemma3. The first startup takes 7 minutes, later its just 10 seconds. To start enter
+Now you can start Gemma3. The first startup takes almost **7 minutes**, later its just 10 seconds. To start enter
 
 ``` sh
 llama-cli -hf ggml-org/gemma-3-1b-it-GGUF --n-gpu-layers 99
 ```
 
-The download might be 30 seconds. Then `main: load model the model and apply lora adapter, if any` needs **almost 7 minutes** for the first start. The next time the cli is available after **10 seconds**.
+The download might be 30 seconds. Then `main: load model the model and apply lora adapter, if any` stops for 6min30 during the first start. The next time the cli is available after **10 seconds**.
 
-If you `ssh` into your Jetson Nano anyway with `ssh 192.168.37.37` you can also start the little http server version. It renders the created markdown much nicer:
+If you `ssh` into your Jetson Nano with `ssh 192.168.37.37` you can also start the little `llama-server`. It renders the created markdown much nicer:
 
 ``` sh
-llama-server -m .cache/llama.cpp/ggml-org_gemma-3-1b-it-GGUF_gemma-3-1b-it-Q4_K_M.gguf --host 0.0.0.0 --n-gpu-layers 99
+llama-server -m ~/.cache/llama.cpp/ggml-org_gemma-3-1b-it-GGUF_gemma-3-1b-it-Q4_K_M.gguf --host 0.0.0.0 --n-gpu-layers 99
 ```
 
 Then open port 8080 on your Jetson with [http://192.168.37.37:8080](http://192.168.37.37:8080) and enjoy the GUI!
@@ -39,13 +45,13 @@ The binaries were compiled with `gcc 8.5` and some changes, described in the rep
 
 ## Description
 
-The script copies three binaries to `/usr/local/bin` and five libraries to `/usr/local/lib`. They should be included an $PATH and autmatically work. To the bin goes:
+The script copies three binaries to `/usr/local/bin` and five libraries to `/usr/local/lib`. They should be included an $PATH and autmatically work. List of binaries to copy:
 
 - llama.cpp
 - llama-server
 - llama-bench
 
-And the 5 required libraries are to `/usr/local/lib`.
+And the 5 required libraries copied to `/usr/local/lib`:
 
 - libllama.so
 - libggml.so
