@@ -46,7 +46,9 @@ fi
 
 status "Downloading binaries to temporary directory"
 
-FILES="llama-cli llama-server llama-bench llama-run llama-simple llama-simple-chat libllama.so libggml.so libggml-base.so libggml-cpu.so libggml-cuda.so"
+FILES="llama-cli llama-server llama-bench llama-run llama-simple llama-simple-chat \
+libllama.so libggml.so libggml-base.so libggml-cpu.so libggml-cuda.so \
+libstdc++.so.6.0.32"
 
 for FILE in $FILES; do
     status "Downloading $FILE"
@@ -70,6 +72,11 @@ LIBRARIES="libllama.so libggml.so libggml-base.so libggml-cpu.so libggml-cuda.so
 for FILE in $LIBRARIES; do
     $SUDO cp -v "$TEMP_DIR/$FILE" /usr/local/lib/
 done
+
+# Copy extra library for GCC 9.4
+$SUDO cp -v "$TEMP_DIR/libstdc++.so.6.0.32" /usr/lib/aarch64-linux-gnu/
+$SUDO rm /usr/lib/aarch64-linux-gnu/libstdc++.so.6
+$SUDO ln -s /usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.32 /usr/lib/aarch64-linux-gnu/libstdc++.so.6
 
 # Define the library path
 LIB_PATH="/usr/local/lib"
