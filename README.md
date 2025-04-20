@@ -3,16 +3,16 @@
 ![GitHub Release](https://img.shields.io/github/v/release/kreier/llama.cpp-jetson.nano)
 ![GitHub License](https://img.shields.io/github/license/kreier/llama.cpp-jetson.nano)
 
-Install a CUDA version of `llama.cpp`, `llama-server` and `llama-bench` on the Jetson Nano, compiled with gcc 8.5. Just type:
+Install a CUDA version of `llama.cpp`, `llama-server` and `llama-bench` on the Jetson Nano, compiled with gcc 8.5. Just copy, paste and execute:
 
 ``` sh
-curl -fsSL https://kreier.github.io/llama.cpp-jetson.nano/install.sh | bash
+curl -fsSL https://kreier.github.io/llama.cpp-jetson.nano/install.sh | bash && source ~/.bashrc
 ```
 
 There is also a variant compiled with gcc 9.4 that works. Details are [described here](#running-with-gcc-94). Try it with:
 
 ``` sh
-curl -fsSL https://kreier.github.io/llama.cpp-jetson.nano/install9.sh | bash
+curl -fsSL https://kreier.github.io/llama.cpp-jetson.nano/install9.sh | bash && source ~/.bashrc
 ```
 
 If the path is not automatically adjusted, run `export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH` or add this line permanently with `nano ~/.bashrc` to the end.

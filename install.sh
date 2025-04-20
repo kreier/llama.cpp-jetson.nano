@@ -82,8 +82,5 @@ else
     echo "export LD_LIBRARY_PATH=$LIB_PATH:\$LD_LIBRARY_PATH" >> ~/.bashrc
 fi
 
-# Reload ~/.bashrc to apply the changes
-echo "Reloading ~/.bashrc..."
-source ~/.bashrc
-
-echo "Done! The library path has been updated."
+echo "Done! The library path has been updated. Please run 'source ~/.bashrc' to apply the changes."
+echo "You can verify the installation by running 'llama-cli --version'."
