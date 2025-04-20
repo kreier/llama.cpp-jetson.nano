@@ -6,13 +6,13 @@
 Install a CUDA version of `llama.cpp`, `llama-server` and `llama-bench` on the Jetson Nano, compiled with gcc 8.5. Just type:
 
 ``` sh
-curl -fsSL https://kreier.github.io/llama.cpp-jetson.nano/install.sh | sh
+curl -fsSL https://kreier.github.io/llama.cpp-jetson.nano/install.sh | bash
 ```
 
 There is also a variant compiled with gcc 9.4 that works. Details are [described here](#running-with-gcc-94). Try it with:
 
 ``` sh
-curl -fsSL https://kreier.github.io/llama.cpp-jetson.nano/install9.sh | sh
+curl -fsSL https://kreier.github.io/llama.cpp-jetson.nano/install9.sh | bash
 ```
 
 If the path is not automatically adjusted, run `export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH` or add this line permanently with `nano ~/.bashrc` to the end.
@@ -61,8 +61,8 @@ And the 5 required libraries copied to `/usr/local/lib`:
 
 This is the content of the script:
 
-``` sh
-#!/bin/sh
+``` bash
+#!/bin/bash
 
 set -eu
 
@@ -110,7 +110,7 @@ fi
 
 status "Downloading binaries to temporary directory"
 
-FILES="llama-cli llama-server llama-bench libllama.so libggml.so libggml-base.so libggml-cpu.so libggml-cuda.so"
+FILES="llama-cli llama-server llama-bench llama-run llama-simple llama-simple-chat libllama.so libggml.so libggml-base.so libggml-cpu.so libggml-cuda.so"
 
 for FILE in $FILES; do
     status "Downloading $FILE"
@@ -123,7 +123,7 @@ $SUDO install -o0 -g0 -m755 -d "/usr/local/bin"
 $SUDO install -o0 -g0 -m755 -d "/usr/local/lib"
 
 # Copy binaries
-BINARIES="llama-cli llama-server llama-bench"
+BINARIES="llama-cli llama-server llama-bench llama-run llama-simple llama-simple-chat"
 for FILE in $BINARIES; do
     $SUDO cp -v "$TEMP_DIR/$FILE" /usr/local/bin/
     $SUDO chmod +x /usr/local/bin/$FILE
@@ -138,15 +138,12 @@ done
 # Define the library path
 LIB_PATH="/usr/local/lib"
 
-# Check if the LD_LIBRARY_PATH line already exists in ~/.bashrc
-grep -q "export LD_LIBRARY_PATH=$LIB_PATH:\$LD_LIBRARY_PATH" ~/.bashrc
-
-# If not, append it to ~/.bashrc
-if [ $? -ne 0 ]; then
+# Check if the LD_LIBRARY_PATH line already exists in ~/.bashrc - if not, append it to ~/.bashrc
+if grep -q "export LD_LIBRARY_PATH=$LIB_PATH:\$LD_LIBRARY_PATH" ~/.bashrc; then
+    echo "Library path is already set in ~/.bashrc."
+else
     echo "Adding library path to ~/.bashrc..."
     echo "export LD_LIBRARY_PATH=$LIB_PATH:\$LD_LIBRARY_PATH" >> ~/.bashrc
-else
-    echo "Library path is already set in ~/.bashrc."
 fi
 
 # Reload ~/.bashrc to apply the changes
@@ -154,7 +151,6 @@ echo "Reloading ~/.bashrc..."
 source ~/.bashrc
 
 echo "Done! The library path has been updated."
-
 ```
 
 ## Running with GCC 9.4
