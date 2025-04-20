@@ -1,9 +1,11 @@
 # llama.cpp-jetson.nano
 
+<a href="https://github.com/ggml-org/llama.cpp"><img src="https://kreier.github.io/llama.cpp-jetson.nano/docs/llama.png" width="20%" align="right"></a>
+
 ![GitHub Release](https://img.shields.io/github/v/release/kreier/llama.cpp-jetson.nano)
 ![GitHub License](https://img.shields.io/github/license/kreier/llama.cpp-jetson.nano)
 
-Install a CUDA version of `llama.cpp`, `llama-server` and `llama-bench` on the Jetson Nano, compiled with gcc 8.5. Just copy, paste and execute:
+Install a CUDA version of `[llama.cpp](https://github.com/ggml-org/llama.cpp)`, `llama-server` and `llama-bench` on the Jetson Nano, compiled with gcc 8.5. Just copy, paste and execute:
 
 ``` sh
 curl -fsSL https://kreier.github.io/llama.cpp-jetson.nano/install.sh | bash && source ~/.bashrc
