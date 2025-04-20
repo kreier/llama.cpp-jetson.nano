@@ -9,7 +9,7 @@ Install a CUDA version of `llama.cpp`, `llama-server` and `llama-bench` on the J
 curl -fsSL https://kreier.github.io/llama.cpp-jetson.nano/install.sh | sh
 ```
 
-There is also a variant compiled with gcc 9.4 that works. Try with:
+There is also a variant compiled with gcc 9.4 that works. Details are [described here](#running-with-gcc-94). Try it with:
 
 ``` sh
 curl -fsSL https://kreier.github.io/llama.cpp-jetson.nano/install9.sh | sh
@@ -156,3 +156,20 @@ source ~/.bashrc
 echo "Done! The library path has been updated."
 
 ```
+
+## Running with GCC 9.4
+
+Both the original gcc 7.5 and the last supported gcc for nvcc, 8.5, come with the library `libstdc++ 6.0.25` in `/usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.25` 
+
+For gcc 9 this is updated to version `6.0.32`. This is the reason the compiled binary from gcc 9.4 does not work on the unpatched system. Just copying the newer library to the library folder causes a system crash. But you can install gcc 9.4 from a reference repository in 4 minutes:
+
+``` sh
+sudo apt install build-essential software-properties-common manpages-dev -y
+sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+sudo apt update
+sudo apt install gcc-9 g++-9 -y
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 9
+sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 9
+```
+
+After that you can use `llama.cpp` binaries compiled with gcc 9.4.
